@@ -1,0 +1,61 @@
+{
+  "name": "sahoo-shop",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "next typegen && tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:integration": "firebase emulators:exec --config firebase.test.json --only firestore,auth,storage --project demo-sahoo-test \"vitest run -c vitest.integration.config.mts\"",
+    "test:e2e": "playwright test",
+    "test:e2e:ci": "firebase emulators:exec --only firestore,auth,storage --project demo-sahoo \"playwright test\"",
+    "emulators": "firebase emulators:start --only firestore,auth,storage --project demo-sahoo",
+    "create-admin": "tsx --env-file-if-exists=.env.local scripts/create-admin.ts",
+    "verify-ledger": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/verify-ledger.ts",
+    "seed:dev": "tsx --conditions=react-server --env-file-if-exists=.env.local scripts/seed-dev.ts"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "cn": "^0.5.0",
+    "exceljs": "^4.4.0",
+    "firebase": "^13.1.0",
+    "firebase-admin": "^14.5.0",
+    "lucide-react": "^1.61.0",
+    "next": "16.4.3",
+    "next-themes": "^0.4.6",
+    "pdfkit": "^0.20.2",
+    "radix-ui": "^1.8.1",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "recharts": "^3.10.1",
+    "server-only": "^0.0.1",
+    "shadcn": "^4.22.1",
+    "sonner": "^2.0.8",
+    "tw-animate-css": "^1.4.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@emnapi/core": "^1.11.3",
+    "@emnapi/runtime": "^1.11.3",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/turbopack": "^4",
+    "@types/node": "^22.20.5",
+    "@types/pdfkit": "^0.17.7",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.3",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.5"
+  }
+}

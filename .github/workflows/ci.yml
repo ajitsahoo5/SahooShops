@@ -1,0 +1,61 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+env:
+  NEXT_PUBLIC_FIREBASE_API_KEY: demo-api-key
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: demo-sahoo.firebaseapp.com
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: demo-sahoo
+  NEXT_PUBLIC_FIREBASE_APP_ID: demo-app-id
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm install -g firebase-tools
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run test:integration
+      - run: npm run build
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: checks
+    env:
+      NEXT_PUBLIC_USE_AUTH_EMULATOR: "true"
+      NEXT_PUBLIC_AUTH_EMULATOR_URL: http://127.0.0.1:9099
+      FIREBASE_PROJECT_ID: demo-sahoo
+      FIREBASE_STORAGE_BUCKET: demo-sahoo.appspot.com
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm install -g firebase-tools
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e:ci
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-traces
+          path: test-results
