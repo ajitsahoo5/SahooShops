@@ -16,7 +16,7 @@ export function InvoiceLinesTable({
 }) {
   const extraCols = (showReturns ? 1 : 0) + (showCost ? 1 : 0);
   return (
-    <div className="rounded-xl border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
       <Table>
         <TableHeader>
           <TableRow>

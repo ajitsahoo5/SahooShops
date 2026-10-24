@@ -38,7 +38,7 @@ export default async function StockPage(props: PageProps<"/stock">) {
         title="Stock ledger"
         description="Every change to stock quantity and value, newest first. Adjust stock from a product page."
       />
-      <Form action="/stock" className="mb-4 flex flex-wrap items-end gap-2">
+      <Form action="/stock" className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border bg-card p-3 shadow-sm shadow-indigo-950/[0.04]">
         {productId && <input type="hidden" name="productId" value={productId} />}
         <NativeSelect name="type" defaultValue={type ?? ""} className="w-44" aria-label="Movement type">
           <option value="">All types</option>

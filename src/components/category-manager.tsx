@@ -75,7 +75,7 @@ export function CategoryManager({
       {categories.length === 0 ? (
         <p className="text-sm text-muted-foreground">No categories yet.</p>
       ) : (
-        <ul className="rounded-xl border">
+        <ul className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
           {categories.map((c) => (
             <Row key={c.id} item={c} endpoint={endpoint} canRename={canRename} />
           ))}

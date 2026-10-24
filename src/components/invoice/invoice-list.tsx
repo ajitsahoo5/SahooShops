@@ -29,7 +29,7 @@ export function InvoiceFilters({
   partyLabel: string;
 }) {
   return (
-    <Form action={path} className="mb-4 flex flex-wrap items-end gap-2">
+    <Form action={path} className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border bg-card p-3 shadow-sm shadow-indigo-950/[0.04]">
       <Input name="number" placeholder="Invoice no." defaultValue={filters.number ?? ""} className="w-36" />
       <Input type="date" name="from" defaultValue={filters.from ?? ""} className="w-40" aria-label="From" />
       <Input type="date" name="to" defaultValue={filters.to ?? ""} className="w-40" aria-label="To" />
@@ -61,7 +61,7 @@ export function InvoiceTable({ rows, path, partyLabel }: { rows: Row[]; path: st
   if (rows.length === 0) return <EmptyState message="No transactions match these filters." />;
   const posted = rows.filter((r) => r.status === "posted");
   return (
-    <div className="rounded-xl border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
       <Table>
         <TableHeader>
           <TableRow>

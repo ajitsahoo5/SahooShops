@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { businessDate } from "@/lib/dates";
 import type { Actor } from "@/server/auth";
 import { createProduct } from "@/server/products/service";
 import { COL, col } from "@/server/collections";
@@ -8,7 +9,8 @@ export const actor: Actor = { uid: "test-admin", email: "admin@test.local" };
 
 export const key = () => randomUUID();
 
-export const TODAY = "2026-10-23";
+// Reversals and refunds post on the real business date, so tests must use it too.
+export const TODAY = businessDate();
 
 export async function makeProduct(
   overrides: Partial<{ sku: string; name: string; qty: number; unitCost: number; price: number; reorder: number }> = {},

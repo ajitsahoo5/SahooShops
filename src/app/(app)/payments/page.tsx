@@ -42,7 +42,7 @@ export default async function PaymentsPage(props: PageProps<"/payments">) {
         description={`Money in ${formatINR(moneyIn)} · money out ${formatINR(moneyOut)} (excluding reversed entries)`}
         actions={<RecordPaymentDialog customers={customers.map(pick)} suppliers={suppliers.map(pick)} />}
       />
-      <Form action="/payments" className="mb-4 flex flex-wrap items-end gap-2">
+      <Form action="/payments" className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border bg-card p-3 shadow-sm shadow-indigo-950/[0.04]">
         <Input type="date" name="from" defaultValue={filters.from ?? ""} className="w-40" aria-label="From" />
         <Input type="date" name="to" defaultValue={filters.to ?? ""} className="w-40" aria-label="To" />
         <NativeSelect name="method" defaultValue={filters.method ?? ""} className="w-36" aria-label="Method">

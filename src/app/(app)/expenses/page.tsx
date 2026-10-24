@@ -48,7 +48,7 @@ export default async function ExpensesPage(props: PageProps<"/expenses">) {
           </>
         }
       />
-      <Form action="/expenses" className="mb-4 flex flex-wrap items-end gap-2">
+      <Form action="/expenses" className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border bg-card p-3 shadow-sm shadow-indigo-950/[0.04]">
         <Input type="date" name="from" defaultValue={filters.from} className="w-40" aria-label="From" />
         <Input type="date" name="to" defaultValue={filters.to} className="w-40" aria-label="To" />
         <NativeSelect name="categoryId" defaultValue={filters.categoryId ?? ""} className="w-44" aria-label="Category">
@@ -80,7 +80,7 @@ export default async function ExpensesPage(props: PageProps<"/expenses">) {
       {expenses.length === 0 ? (
         <EmptyState message="No expenses in this period." />
       ) : (
-        <div className="rounded-xl border">
+        <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
           <Table>
             <TableHeader>
               <TableRow>

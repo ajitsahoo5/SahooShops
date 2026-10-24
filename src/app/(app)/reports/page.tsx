@@ -39,7 +39,7 @@ export default async function ReportsPage(props: PageProps<"/reports">) {
   return (
     <>
       <PageHeader title="Reports" description="Preview a report, then download it as Excel or PDF." />
-      <Form action="/reports" className="mb-4 flex flex-wrap items-end gap-2">
+      <Form action="/reports" className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border bg-card p-3 shadow-sm shadow-indigo-950/[0.04]">
         <NativeSelect name="report" defaultValue={reportId} className="w-64" aria-label="Report">
           {REPORT_IDS.map((id) => (
             <option key={id} value={id}>

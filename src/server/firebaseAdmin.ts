@@ -52,7 +52,14 @@ export function db(): Firestore {
     // FIRESTORE_DATABASE_ID lets the app run against a database restored from backup.
     const databaseId = process.env.FIRESTORE_DATABASE_ID;
     const firestore = databaseId ? getFirestore(adminApp(), databaseId) : getFirestore(adminApp());
-    firestore.settings({ ignoreUndefinedProperties: true });
+    firestore.settings({
+      ignoreUndefinedProperties: true,
+      // Without explicit credentials the emulator client still probes the GCE metadata server,
+      // which stalls the first query by seconds and logs a MetadataLookupWarning off Google Cloud.
+      ...(process.env.FIRESTORE_EMULATOR_HOST && {
+        credentials: { client_email: "emulator@localhost", private_key: "emulator" },
+      }),
+    });
     cache.db = firestore;
   }
   return cache.db;

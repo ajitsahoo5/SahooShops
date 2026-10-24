@@ -24,7 +24,7 @@ const NUMERIC: ColumnType[] = ["money", "qty", "number", "percent"];
 export function ReportTableView({ report, maxRows = 1000 }: { report: ReportTable; maxRows?: number }) {
   const rows = report.rows.slice(0, maxRows);
   return (
-    <div className="rounded-xl border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
       <Table>
         <TableHeader>
           <TableRow>

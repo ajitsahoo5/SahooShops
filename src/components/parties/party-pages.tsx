@@ -34,7 +34,7 @@ export async function PartyListPage({ type }: { type: PartyType }) {
       {parties.length === 0 ? (
         <EmptyState message={`No ${labels.plural.toLowerCase()} yet.`} />
       ) : (
-        <div className="rounded-xl border">
+        <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
           <Table>
             <TableHeader>
               <TableRow>

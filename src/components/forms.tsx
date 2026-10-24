@@ -30,7 +30,7 @@ export function NativeSelect({ className, children, ...props }: React.ComponentP
   return (
     <select
       className={cn(
-        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50 dark:bg-input/30",
+        "h-9 w-full min-w-0 rounded-lg border border-input bg-card px-2.5 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50 dark:bg-input/30",
         className,
       )}
       {...props}
@@ -50,7 +50,7 @@ export function MoneyInput({ className, ...props }: Omit<React.ComponentProps<"i
         type="text"
         inputMode="decimal"
         autoComplete="off"
-        className="h-8 w-full min-w-0 rounded-lg border border-input bg-transparent py-1 pr-2.5 pl-6 text-right text-sm tabular-nums outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50 dark:bg-input/30"
+        className="h-9 w-full min-w-0 rounded-lg border border-input bg-card py-1 pr-2.5 pl-6 text-right text-sm tabular-nums outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50 dark:bg-input/30"
         {...props}
       />
     </div>
@@ -64,7 +64,7 @@ export function QtyInput({ className, ...props }: Omit<React.ComponentProps<"inp
       inputMode="decimal"
       autoComplete="off"
       className={cn(
-        "h-8 w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-right text-sm tabular-nums outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50 dark:bg-input/30",
+        "h-9 w-full min-w-0 rounded-lg border border-input bg-card px-2.5 py-1 text-right text-sm tabular-nums outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:opacity-50 dark:bg-input/30",
         className,
       )}
       {...props}

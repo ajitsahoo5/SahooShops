@@ -29,7 +29,7 @@ export function PaymentsTable({
 }) {
   if (payments.length === 0) return <EmptyState message="No payments recorded." />;
   return (
-    <div className="rounded-xl border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
       <Table>
         <TableHeader>
           <TableRow>

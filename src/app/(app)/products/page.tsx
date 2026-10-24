@@ -47,7 +47,7 @@ export default async function ProductsPage(props: PageProps<"/products">) {
           </>
         }
       />
-      <Form action="/products" className="mb-4 flex flex-wrap items-end gap-2">
+      <Form action="/products" className="mb-4 flex flex-wrap items-end gap-2 rounded-xl border bg-card p-3 shadow-sm shadow-indigo-950/[0.04]">
         <Input name="q" placeholder="Search name or SKU" defaultValue={filters.q ?? ""} className="w-56" />
         <NativeSelect name="categoryId" defaultValue={filters.categoryId ?? ""} className="w-44" aria-label="Category">
           <option value="">All categories</option>
@@ -76,7 +76,7 @@ export default async function ProductsPage(props: PageProps<"/products">) {
       {items.length === 0 ? (
         <EmptyState message="No products match these filters." />
       ) : (
-        <div className="rounded-xl border">
+        <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
           <Table>
             <TableHeader>
               <TableRow>

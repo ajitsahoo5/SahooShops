@@ -32,7 +32,7 @@ export function MovementTable({
 }) {
   if (movements.length === 0) return <EmptyState message="No stock movements yet." />;
   return (
-    <div className="rounded-xl border">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
       <Table>
         <TableHeader>
           <TableRow>

@@ -108,7 +108,7 @@ export default async function SalePage(props: PageProps<"/sales/[id]">) {
       {returns.length > 0 && (
         <section className="mt-6 print:hidden">
           <h2 className="mb-2 text-lg font-semibold">Returns</h2>
-          <div className="rounded-xl border">
+          <div className="overflow-hidden rounded-xl border bg-card shadow-sm shadow-indigo-950/[0.04]">
             <Table>
               <TableHeader>
                 <TableRow>
