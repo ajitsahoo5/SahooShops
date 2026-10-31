@@ -2,6 +2,7 @@ import "server-only";
 import { FieldValue, type Query } from "firebase-admin/firestore";
 import { DomainError } from "@/lib/errors";
 import { lineAmount } from "@/lib/qty";
+import { compareSku } from "@/lib/sku-sort";
 import type {
   CreateProductInput,
   ProductListQuery,
@@ -191,13 +192,9 @@ export async function getProduct(id: string): Promise<WithId<ProductDoc> | null>
   return snap.exists ? withId<ProductDoc>(snap) : null;
 }
 
-function productSortField(sort: ProductListQuery["sort"] | undefined): "nameLower" | "sku" {
-  return sort === "sku" ? "sku" : "nameLower";
-}
-
 export async function listProducts(filters: Partial<ProductListQuery>): Promise<{ items: WithId<ProductDoc>[]; truncated: boolean }> {
   const tokens = filters.q ? queryTokens(filters.q) : [];
-  const sortField = productSortField(filters.sort);
+  const sortBySku = (filters.sort ?? "name") === "sku";
   const direction = filters.dir === "desc" ? "desc" : "asc";
   let query: Query = col(COL.products);
   if (tokens.length) query = query.where("searchTokens", "array-contains", tokens[0]);
@@ -205,17 +202,17 @@ export async function listProducts(filters: Partial<ProductListQuery>): Promise<
   if (filters.status) query = query.where("stockStatus", "==", filters.status);
   if (filters.active === "active" || filters.active === undefined) query = query.where("active", "==", true);
   if (filters.active === "inactive") query = query.where("active", "==", false);
-  // Token search cannot order in Firestore without a composite index per filter combination.
-  // Those results are sorted in memory after the token filter.
-  if (!tokens.length) query = query.orderBy(sortField, direction);
+  // SKUs are sorted numerically in memory. The Firestore read uses name order so the
+  // existing name indexes apply, then the full fetched page is reordered.
+  if (!tokens.length) query = query.orderBy("nameLower", sortBySku ? "asc" : direction);
   const snap = await query.limit(LIST_LIMIT).get();
   let items = snap.docs.map((d) => withId<ProductDoc>(d));
   if (tokens.length > 1) {
     items = items.filter((p) => tokens.every((t) => p.searchTokens.includes(t)));
   }
-  if (tokens.length) {
+  if (tokens.length || sortBySku) {
     items.sort((a, b) => {
-      const cmp = a[sortField].localeCompare(b[sortField]);
+      const cmp = sortBySku ? compareSku(a.sku, b.sku) : a.nameLower.localeCompare(b.nameLower);
       return direction === "desc" ? -cmp : cmp;
     });
   }

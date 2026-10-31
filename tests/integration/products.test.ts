@@ -110,4 +110,13 @@ describe("products", () => {
     ]);
     expect((await listProducts({ q: "dal", sort: "sku", dir: "desc" })).items.map((p) => p.sku)).toEqual(["DAL-2", "DAL-1"]);
   });
+
+  it("sorts numeric SKUs by value", async () => {
+    await makeProduct({ sku: "10", name: "Ten" });
+    await makeProduct({ sku: "2", name: "Two" });
+    await makeProduct({ sku: "100", name: "Hundred" });
+    await makeProduct({ sku: "1", name: "One" });
+    expect((await listProducts({ sort: "sku", dir: "asc" })).items.map((p) => p.sku)).toEqual(["1", "2", "10", "100"]);
+    expect((await listProducts({ sort: "sku", dir: "desc" })).items.map((p) => p.sku)).toEqual(["100", "10", "2", "1"]);
+  });
 });
