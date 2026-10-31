@@ -8,12 +8,14 @@ const ix = (collectionGroup, ...fields) => ({ collectionGroup, queryScope: "COLL
 
 const indexes = [];
 
-// Products: list filters (category, stock status, active) with name ordering, and token search.
+// Products: list filters (category, stock status, active) with name or SKU ordering, and token search.
+// Firestore builds the reverse of each composite index, so one ASCENDING order field also serves DESC queries.
 for (const cat of [false, true]) {
   for (const status of [false, true]) {
     for (const active of [false, true]) {
       const eq = [cat && A("categoryId"), status && A("stockStatus"), active && A("active")].filter(Boolean);
       if (eq.length) indexes.push(ix("products", ...eq, A("nameLower")));
+      if (eq.length) indexes.push(ix("products", ...eq, A("sku")));
       if (eq.length) indexes.push(ix("products", C("searchTokens"), ...eq));
     }
   }

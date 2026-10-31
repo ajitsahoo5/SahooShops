@@ -101,5 +101,13 @@ describe("products", () => {
     expect((await listProducts({ q: "dal" })).items).toHaveLength(2);
     expect((await listProducts({ q: "moo dal" })).items.map((p) => p.name)).toEqual(["Moong Dal 500g"]);
     expect((await listProducts({ q: "sug" })).items).toHaveLength(1);
+    expect((await listProducts({ sort: "sku", dir: "asc" })).items.map((p) => p.sku)).toEqual(["DAL-1", "DAL-2", "SUG-1"]);
+    expect((await listProducts({ sort: "sku", dir: "desc" })).items.map((p) => p.sku)).toEqual(["SUG-1", "DAL-2", "DAL-1"]);
+    expect((await listProducts({ sort: "name", dir: "desc" })).items.map((p) => p.name)).toEqual([
+      "Toor Dal 1kg",
+      "Sugar 1kg",
+      "Moong Dal 500g",
+    ]);
+    expect((await listProducts({ q: "dal", sort: "sku", dir: "desc" })).items.map((p) => p.sku)).toEqual(["DAL-2", "DAL-1"]);
   });
 });

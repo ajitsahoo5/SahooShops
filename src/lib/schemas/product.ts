@@ -50,6 +50,8 @@ export const productListQuerySchema = z.object({
   categoryId: docIdSchema.optional(),
   status: z.enum(["ok", "low", "out"]).optional(),
   active: z.enum(["active", "inactive", "all"]).default("active"),
+  sort: z.enum(["name", "sku"]).default("name"),
+  dir: z.enum(["asc", "desc"]).default("asc"),
 });
 
 export const stockAdjustmentSchema = z

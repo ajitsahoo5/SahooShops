@@ -191,21 +191,34 @@ export async function getProduct(id: string): Promise<WithId<ProductDoc> | null>
   return snap.exists ? withId<ProductDoc>(snap) : null;
 }
 
+function productSortField(sort: ProductListQuery["sort"] | undefined): "nameLower" | "sku" {
+  return sort === "sku" ? "sku" : "nameLower";
+}
+
 export async function listProducts(filters: Partial<ProductListQuery>): Promise<{ items: WithId<ProductDoc>[]; truncated: boolean }> {
   const tokens = filters.q ? queryTokens(filters.q) : [];
+  const sortField = productSortField(filters.sort);
+  const direction = filters.dir === "desc" ? "desc" : "asc";
   let query: Query = col(COL.products);
   if (tokens.length) query = query.where("searchTokens", "array-contains", tokens[0]);
   if (filters.categoryId) query = query.where("categoryId", "==", filters.categoryId);
   if (filters.status) query = query.where("stockStatus", "==", filters.status);
   if (filters.active === "active" || filters.active === undefined) query = query.where("active", "==", true);
   if (filters.active === "inactive") query = query.where("active", "==", false);
-  if (!tokens.length) query = query.orderBy("nameLower");
+  // Token search cannot order in Firestore without a composite index per filter combination.
+  // Those results are sorted in memory after the token filter.
+  if (!tokens.length) query = query.orderBy(sortField, direction);
   const snap = await query.limit(LIST_LIMIT).get();
   let items = snap.docs.map((d) => withId<ProductDoc>(d));
   if (tokens.length > 1) {
     items = items.filter((p) => tokens.every((t) => p.searchTokens.includes(t)));
   }
-  if (tokens.length) items.sort((a, b) => a.nameLower.localeCompare(b.nameLower));
+  if (tokens.length) {
+    items.sort((a, b) => {
+      const cmp = a[sortField].localeCompare(b[sortField]);
+      return direction === "desc" ? -cmp : cmp;
+    });
+  }
   return { items, truncated: snap.size >= LIST_LIMIT };
 }
 
